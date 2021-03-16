@@ -1,0 +1,23 @@
+#!/usr/bin/with-contenv sh
+
+#set -x
+
+source /etc/colors.sh
+
+PREFFIX="[services.d] [rclone-mount]-$(s6-basename ${0}):"
+
+echo -e "${PREFFIX} ${Green}starting rclone mount $(date +%Y.%m.%d-%T)${Color_Off}"
+
+## ECHO DEBUG
+if [ "$DEBUG" = true ]; then
+    echo -e "${PREFFIX} [DEBUG] command: /usr/sbin/rclone --config $ConfigPath mount $RemotePath $MountPoint $MountCommands"
+fi
+
+/usr/sbin/rclone --config $ConfigPath mount $RemotePath $MountPoint $MountCommands
+
+if [ "$VFS" = true ]; then
+    /usr/sbin/rclone --config $ConfigPath mount $RemotePath $MountPoint $MountCommands --rc --rc-addr :5572 --vfs-read-chunk-size 32M
+    /usr/sbin/rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true
+else
+    /usr/sbin/rclone --config $ConfigPath mount $RemotePath $MountPoint $MountCommands
+fi
