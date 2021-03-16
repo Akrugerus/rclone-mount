@@ -4,7 +4,7 @@ ARG RCLONE_VERSION="v1.53.3"
 ARG OVERLAY_VERSION="v1.22.1.0"
 ARG OVERLAY_ARCH="amd64"
 
-ENV VFS="false" \
+ENV VFS="true" \
     DEBUG="false" \
     GOPATH="/go" \
     GO111MODULE="on" \
