@@ -11,7 +11,7 @@ services:
     - apparmor:unconfined
     environment:
       RemotePath: 'mediaefs:'
-      MountCommands: --allow-other --uid 1000 --gid 1000 --umask 002 --default-permissions --allow-non-empty --dir-cache-time 1000h --poll-interval 15s --buffer-size 128M
+      MountCommands: --allow-other --uid 1000 --gid 1000 --umask 002 --dir-cache-time 1000h --poll-interval 15s --vfs-read-chunk-size 32M
     stdin_open: true
     tty: true
     volumes:
